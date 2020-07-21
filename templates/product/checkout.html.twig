@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement
+{% endblock %}
+{% block stylesheets %}
+        <link rel="stylesheet" href="/vendor/global.css" />
+        <style>
+        /* Blue outline on focus */
+        .StripeElement--focus {
+            border-color: #80BDFF;
+            outline:0;
+            box-shadow: 0 0 0 .2rem rgba(0,123,255,.25);
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
+        /* Can't see what I type without this */
+        #card-number.form-control,
+        #card-cvc.form-control,
+        #card-exp.form-control {
+            display:inline-block;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="bg-light p-3">
+        <h1>Paiement</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="border border-dark rounded p-2 clearfix">
+                <h3> {{ product.title }}</h3>
+                <h4>{{ product.price }} €</h4>
+                <img class="img-fluid rounded" src="/images/{{ product.image }}" alt="Image de {{ product.title }}">
+            </div> 
+        </div>
+        <div class="col-md-6">
+            <form method="post" id="payment-form">
+                <div id="card-elements" class="form-control" style='padding-top: .7em;'>
+                <!--Contiendra le formulaire de saisie des informations de carte-->
+                </div>
+                <button id="card-button" type="submit" data-secret="{{ client_secret }}">
+                    <div class="spinner hidden" id="spinner"></div>
+                    <span id="button-text">Payer {{ product.price }} €</span>
+                </button>
+                <div id="card-errors" role="alert"></div><!--Contiendra les erreurs -->
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="/client.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    
+{% endblock %}
+
